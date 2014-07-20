@@ -25,8 +25,6 @@ var themeCode = firstTheme;
 sgg_len = sgg.features.length;
 //alert( sgg_len );
 
-var maxDummy = sgg.features[sgg_len-2].properties;
-var minDummy = sgg.features[sgg_len-1].properties;
    
 sgg_layer = L.geoJson([sgg], {
 	style: 	sgg_style,
@@ -34,11 +32,7 @@ sgg_layer = L.geoJson([sgg], {
 	});
 sgg_layer.addTo(map);
 
-map.attributionControl.addAttribution('Original Shapefile 제공<a href ="http://www.gisdeveloper.co.kr" target="_blank">'+
-	' www.gisdeveloper.co.kr</a> | '+
-	'선거결과 데이터 가공 및 시각화 '+
-	'<a href ="https://twitter.com/nobody_indepth" target="_blank">@nobody_indepth</a>, '+
-	'황용하');
+map.attributionControl.addAttribution('');
 
 var info = L.control();
 
@@ -83,12 +77,40 @@ function addLayer(layer, name, zIndex) {
     map.addLayer(layer);
     this.className = 'active';
 }
+
+function get_color( sig_cd, sig_nm ) {
+	vote_percent = election_data['2012-04-11'][sig_cd]['elect_data']['vote_percent'] / 100;
+	party_nm = election_data['2012-04-11'][sig_cd]['elect_data']['party_nm'];
+	//alert( vote_percent + ":" + sig_cd + party_nm );
+	//ccode = setBipoleColor(d,-1,1,red2Blue);
 	
+	if( party_nm == '새누리당' ) {
+		//vote_percent *= 1;		
+		color = setBipoleColor( vote_percent , -1, 1, 1 );
+		
+	} else if( party_nm == '민주통합당' ){
+		//vote_percent *= -1;	
+		color = setBipoleColor( vote_percent * -1, -1, 1, 1 );
+	} else {
+		//alert( sig_cd, sig_nm, "white!" );
+		color = "#BBBBBB";
+	}
+	//alert( color );
+	return color;	
+	
+}
 function sgg_style (feature) {
 	var cValue = feature.properties[themeCode];
+	var fillColorValue = '#FFFFFF';
+	if( typeof feature.properties['sig_cd'] !== "undefined") {
+		sig_cd = feature.properties['sig_cd'] 
+		sig_nm = feature.properties['sig_nm'] 
+		fillColorValue = get_color( sig_cd, sig_nm );
+	}
+	//alert( feature.properties['sig_cd'] );
 	//alert( feature.properties['TL_SCCO_1'] );
 	return {
-		fillColor: feature.properties['default_color'],
+		fillColor: fillColorValue,
         weight: .8,
         opacity: 1,
         color: '#303030',
