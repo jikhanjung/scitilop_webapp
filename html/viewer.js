@@ -25,8 +25,6 @@ var themeCode = firstTheme;
 sgg_len = sgg.features.length;
 //alert( sgg_len );
 
-<<<<<<< HEAD
-   
 sgg_layer = L.geoJson([sgg], {
 	style: 	sgg_style,
 	onEachFeature: onEachFeature,
@@ -112,72 +110,6 @@ function sgg_style (feature) {
 	//alert( feature.properties['TL_SCCO_1'] );
 	return {
 		fillColor: fillColorValue,
-=======
-var maxDummy = sgg.features[sgg_len-2].properties;
-var minDummy = sgg.features[sgg_len-1].properties;
-   
-sgg_layer = L.geoJson([sgg], {
-	style: 	sgg_style,
-	onEachFeature: onEachFeature,
-	});
-sgg_layer.addTo(map);
-
-map.attributionControl.addAttribution('Original Shapefile 제공<a href ="http://www.gisdeveloper.co.kr" target="_blank">'+
-	' www.gisdeveloper.co.kr</a> | '+
-	'선거결과 데이터 가공 및 시각화 '+
-	'<a href ="https://twitter.com/nobody_indepth" target="_blank">@nobody_indepth</a>, '+
-	'황용하');
-
-var info = L.control();
-
-info.onAdd = function (map) {
-    this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
-    this.update(themeCode);
-    return this._div;
-};
-
-// method that we will use to update the control based on feature properties passed
-info.update = function (tc) {
-    this._div.innerHTML = '<a href="./index.html"><h4>2014년 지방선거</h4></a>' + '<br>'
-    	+ '<a href="http://www.ilwar.com/poli/141022" target="_blank">지도들에 대한 해제</a>' + '<br><br>'
-    	+ "<b>"+getThemeName(tc) + '</b><br>'
-    	+ getThemeDesc(tc) ;
-};
-
-info.addTo(map);
-
-
-function addThemeButton(themeText) {
-	var tc = themeText;
-	var link = document.createElement('a');
-        link.href = '#';
-        link.className = 'active';
-        link.innerHTML = getThemeName(tc);
-        
-    link.onclick = function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        themeCode = tc;
-        sgg_layer.setStyle(sgg_style);
-        info.update(tc);
-        console.log(tc);
-        //window.location.href = "./index.html?tc="+tc;
-	};
-    themes.appendChild(link);
-}
-
-function addLayer(layer, name, zIndex) {
-    layer.setZIndex(zIndex).addTo(map);
-    map.addLayer(layer);
-    this.className = 'active';
-}
-	
-function sgg_style (feature) {
-	var cValue = feature.properties[themeCode];
-	//alert( feature.properties['TL_SCCO_1'] );
-	return {
-		fillColor: feature.properties['default_color'],
->>>>>>> branch 'master' of https://github.com/jikhanjung/scitilop_webapp.git
         weight: .8,
         opacity: 1,
         color: '#303030',
