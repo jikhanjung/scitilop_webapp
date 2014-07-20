@@ -51,7 +51,6 @@ info.update = function (tc) {
 
 info.addTo(map);
 
-
 function addThemeButton(themeText) {
 	var tc = themeText;
 	var link = document.createElement('a');
